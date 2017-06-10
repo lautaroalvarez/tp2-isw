@@ -1,10 +1,12 @@
 \subsection{Sensor comunica datos}
 
-\par En este caso de uso se observa como
+\par En este caso de uso se observa como el actor \textbf{Sensor} se comunica con el sistema para enviarle los datos de temperatura y presión obtenidos de cada pozo. \\
 
-\begin{umlsystem}[x=4, fill=green!10]{ARS}
-  \umlusecase{Recibidor De Señales}
-\end{umlsystem}
+\begin{tikzpicture}
+  \begin{umlsystem}[x=4, fill=green!10]{ARS}
+    \umlusecase{Recibidor De Señales}
+  \end{umlsystem}
 
-\umlactor{sensor}
-\umlassoc{sensor}{Recibidor De Señales}
+  \umlactor{Sensor}
+  \umlassoc{Sensor}{usecase-1}
+\end{tikzpicture}
