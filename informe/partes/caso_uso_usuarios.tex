@@ -1,0 +1,32 @@
+\subsection{Roles de usuarios e interacción con el sistema}
+
+\par A partir de acá todos están autenticados. (explicar bien)
+
+\begin{tikzpicture}
+  \begin{umlsystem}[x=9, y=-1, fill=green!10]{ARS}
+    %--casos de uso
+    \umlusecase[x=0, y=0, width=3cm, name=ViendoSistemaDeMonitoreo]{Viendo sistema de monitoreo}
+    \umlusecase[x=2, y=-2, width=1.5cm, name=ViendoUnEvento]{Viendo un evento}
+    \umlusecase[x=0, y=-4, width=3cm, name=ViendoListadoDeEventos]{Viendo listado de eventos}
+    \umlusecase[x=0, y=-6, width=3cm, name=ResolviendoEventoDeAlarma]{Resolviendo evento de alarma}
+  \end{umlsystem}
+
+  %--relacion entre casos de uso
+  \umlVHextend{ViendoListadoDeEventos}{ViendoUnEvento}
+
+  %--actores
+  \umlactor[x=3, y=-1]{Visualizador de monitoreo}
+  \umlactor[x=4, y=-5]{Visualizador de eventos}
+  \umlactor[x=3, y=-7]{Encargado de alarmas}
+  \umlactor[x=0, y=-4]{Usuario}
+
+  %--herencia de actores
+  \umlinherit{Usuario}{Visualizador de monitoreo}
+  \umlinherit{Usuario}{Visualizador de eventos}
+  \umlinherit{Usuario}{Encargado de alarmas}
+
+  %--relacion actores - casos de uso
+  \umlassoc{Visualizador de monitoreo}{ViendoSistemaDeMonitoreo}
+  \umlassoc{Visualizador de eventos}{ViendoListadoDeEventos}
+  \umlassoc{Encargado de alarmas}{ResolviendoEventoDeAlarma}
+\end{tikzpicture}

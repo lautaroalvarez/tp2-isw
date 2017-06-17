@@ -1,0 +1,18 @@
+\subsection{Autenticación}
+
+\par Antes que nada, vamos a definir los casos de uso relacionados con la autenticación del usuario en el sistema.
+
+\begin{tikzpicture}
+  \begin{umlsystem}[y=1, x=2, fill=green!10]{ARS}
+    % casos de uso
+    \umlusecase[y=0, name=Autenticadonse]{Autenticándose}
+    \umlusecase[y=-2, width=2.5cm, name=CancelandoAutenticacion]{Cancelando autenticación}
+  \end{umlsystem}
+
+  % actores
+  \umlactor[x=-2, y=0]{Usuario}
+
+  % relaciones actor - caso de uso
+  \umlassoc{Usuario}{Autenticadonse}
+  \umlassoc{Usuario}{CancelandoAutenticacion}
+\end{tikzpicture}

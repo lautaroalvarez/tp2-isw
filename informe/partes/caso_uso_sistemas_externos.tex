@@ -1,0 +1,28 @@
+\subsection{Interacción con sistemas e instrumentos externos}
+
+\par Estos no hace falta que estén logueados. No son usuarios sino `cosas' (explicar bien)
+
+\begin{tikzpicture}
+  \begin{umlsystem}[x=0, y=0, fill=green!10]{ARS}
+    %--casos de uso
+    \umlusecase[x=0, y=0, width=2cm, name=RecibiendoMedicionDeTemperatura]{Recibiendo medición de temperatura}
+    \umlusecase[x=3, y=0, width=1.5cm, name=BuscandoAnomalias]{Buscando Anomalías}
+    \umlusecase[x=0, y=-2, width=1.5cm, name=ActivandoAlarma]{Activando Alarma}
+    \umlusecase[x=3, y=-2, width=2cm, name=RecibiendoMedicionDePresion]{Recibiendo medición de presión}
+    \umlusecase[x=1.5, y=-4, width=2cm, name=InformandoQueHayNuevosDatos]{Informando que hay nuevos datos}
+  \end{umlsystem}
+
+  %--actores
+  \umlactor[x=-4, y=0]{Sensor de temperatura}
+  \umlactor[x=7, y=0]{SimOil}
+  \umlactor[x=7, y=-2]{Sensor de presion}
+  \umlactor[x=-4, y=-2]{Encargado de SMS}
+  \umlactor[x=7, y=-4]{Ente regulador}
+
+  %--relacion actores - casos de uso
+  \umlassoc{Sensor de presion}{RecibiendoMedicionDePresion}
+  \umlassoc{Sensor de temperatura}{RecibiendoMedicionDeTemperatura}
+  \umlassoc{SimOil}{BuscandoAnomalias}
+  \umlassoc{Encargado de SMS}{ActivandoAlarma}
+  \umlassoc{Ente regulador}{InformandoQueHayNuevosDatos}
+\end{tikzpicture}
