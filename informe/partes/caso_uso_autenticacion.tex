@@ -1,18 +1,30 @@
 \subsection{Autenticación}
+\label{sec:casosuso_autenticacion}
 
-\par Antes que nada, vamos a definir los casos de uso relacionados con la autenticación del usuario en el sistema.
+\par Antes que nada, vamos a definir los casos de uso relacionados con la autenticación del usuario en el sistema. En la figura \ref{fig:casosuso_autenticacion} podemos que simplemente tenemos un actor \textit{Usuario} que es quien participa de ambos casos de uso.
 
-\begin{tikzpicture}
-  \begin{umlsystem}[y=1, x=2, fill=green!10]{ARS}
-    % casos de uso
-    \umlusecase[y=0, name=Autenticadonse]{Autenticándose}
-    \umlusecase[y=-2, width=2.5cm, name=CancelandoAutenticacion]{Cancelando autenticación}
-  \end{umlsystem}
+\begin{figure}[ht]
+  \center
+  \begin{tikzpicture}
+    \begin{umlsystem}[y=1, x=2, fill=green!10]{ARS}
+      % casos de uso
+      \umlusecase[y=0, name=Autenticadonse]{Autenticándose}
+      \umlusecase[y=-2, width=2.5cm, name=CancelandoAutenticacion]{Cancelando autenticación}
+    \end{umlsystem}
 
-  % actores
-  \umlactor[x=-2, y=0]{Usuario}
+    % actores
+    \umlactor[x=-2, y=0]{Usuario}
 
-  % relaciones actor - caso de uso
-  \umlassoc{Usuario}{Autenticadonse}
-  \umlassoc{Usuario}{CancelandoAutenticacion}
-\end{tikzpicture}
+    % relaciones actor - caso de uso
+    \umlassoc{Usuario}{Autenticadonse}
+    \umlassoc{Usuario}{CancelandoAutenticacion}
+  \end{tikzpicture}
+  \caption{Gráfico de casos de uso relacionados con autenticación y actores que intervienen.}
+  \label{fig:casosuso_autenticacion}
+\end{figure}
+
+\par A continuación pasaremos a explicar los dos casos de uso:
+\begin{itemize}
+  \item \textbf{Autenticándose:} El usuario ingresa sus datos de cuenta y es autenticado por el sistema, quien le da unas credenciales correspondientes a los roles que tiene permitidos asumir.
+  \item \textbf{Cancelando autenticación:} El sistema bloquea las credenciales que había otorgado al usuario y no le permite mas el acceso a los módulos del sistema que requieran permisos.
+\end{itemize}
