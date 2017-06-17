@@ -1,1 +1,30 @@
 \subsubsection{Resolviendo un evento de alarma}
+
+{\renewcommand{\arraystretch}{1.4}
+\begin{tabularx}{\textwidth}{| X | X |}
+   \hline
+   \textbf{Caso de uso} & \textbf{Resolviendo un evento de alarma}\\
+   \hline
+   \textbf{Precondición} & El sistema debe encontrarse en modo alarma como consecuencia del evento que el usuario desea resolver.\\
+   \hline
+   \textbf{Postcondición} & El sistema pasa a estar nuevamente en estado normal y el evento se marcará como resuelto.\\
+   \hline
+   \textbf{Curso normal} & \textbf{Curso alternativo}\\
+   \hline
+   1) El sistema carga la información del evento: Yacimiento o pozo involucrado, el o los instrumentos de medición responsables, fecha y hora de la medición, entre otros datos. & \\
+   \hline
+   2) El sistema muestra al usuario dos botones para seleccionar si se trata de una falsa alarma o si no.
+   &
+   2.1) Si el usuario indica que se trató de una falsa alarma pasa diréctamente a la confirmación de los datos a guardar 5).\\
+   \hline
+   3) El usuario completa los campos de la explicación de la acción correctiva tomada: tipo de acción, fecha y hora de la acción, persona encargada de realizar la acción y observaciones adicionales. & \\
+   \hline
+   4) El usuario indica que quiere guardar la revisión. & \\
+   \hline
+   5) El sistema le consulta al usuario si está seguro que desea guardar la revisión. & 5.1) Si el usuario ingresa que no, vuelve a la parte de edición de datos de revisión. \\
+   \hline
+   6) El sistema guarda los datos y le muestra al usuario un mensaje de aviso. & \\
+   \hline
+   7) Fin del caso. & \\
+   \hline
+\end{tabularx}
