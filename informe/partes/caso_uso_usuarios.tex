@@ -1,8 +1,15 @@
 \subsection{Roles de usuarios e interacción con el sistema}
 
-\par A continuación vamos a mencionar y analizar los casos de uso que se llevan a cabo por interacción del usuario con una interfaz web. En todos los casos de uso que mencionaremos aquí, se requiere al actor previa autenticación. Esta autenticación debió ser otorgada por el sistema al usuario como es mencionado en la subsección \ref{sec:casosuso_autenticacion}.
+\par A continuación vamos a mencionar y analizar los casos de uso que se llevan a cabo por interacción del usuario con una interfaz web. En todos los casos de uso que mencionaremos aquí, se requiere al actor previa autenticación. Esta autenticación debió ser otorgada por el sistema al usuario como es mencionado en la subsección \ref{sec:casosuso_autenticacion}. Como vemos en el gráfico de casos de uso de la figura \ref{fig:casosuso_usuarios}, los distintos actores heredan de \textit{Usuario} los casos de uso relacionados con autenticación.
 
-\par Como vemos en el gráfico de casos de uso de la figura \ref{fig:casosuso_usuarios}, los distintos actores heredan de \textit{Usuario} los casos de uso relacionados con autenticación.
+\par Podemos diferenciar tres actores: \textbf{Visualizador de monitoreo}, \textbf{Visualizador de eventos} y \textbf{Encargado de alarmas}. Cada uno de ellos, puede realizar una interracción con el sistema. Vamos a mencionarlas todas y dar una explicación general, pero mas adelante (en la subsección \ref{sec:casosuso_cuadros}) se seleccionarán las tres mas importantes y se detallará su funcionamiento en una tabla \textit{curso normal / curso alternativo}.
+
+\begin{itemize}
+  \item \textbf{Viendo sistema de monitoreo}: El actor \textit{Visualizador de monitoreo} ingresa al sistema y visualiza un listado de datos recolectados por los sensores y también datos que ya fueron procesados y analizados.
+  \item \textbf{Viendo listado de eventos}: El actor \textit{Visualizador de eventos} ingresa al sistema y puede observar el listado de eventos anómalos detectados. Aquí podrá hacer click sobre alguno en particular para pasar a \textit{Viendo un evento}.
+  \item \textbf{Viendo un evento}: El actor \textit{Visualizador de eventos} puede observar aquí los datos de un evento en particular, el estado y la acción tomada (o falsa alarma) por el Jefe de operaciones.
+  \item \textbf{Resolviendo evento de alarma}: El actor \textit{Encargado de alarmas} ingresa al sistema luego de haber recibido una notificación de alarma para completar los datos faltantes del formulario de evento. Entre otras cosas, debe indicar al sistema qué acción correctiva se tomó o si se trata de una falsa alarma.
+\end{itemize}
 
 \begin{figure}[ht]
   \center

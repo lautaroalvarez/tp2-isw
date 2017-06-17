@@ -1,27 +1,49 @@
-\subsection{Interacción con sistemas e instrumentos externos}
+\subsection{Interacciones con instrumentos externos o iniciadas por el sistema}
 
+\par En esta subsección vamos a mencionar y dar una explicación general de las interacciones entre el sistema ARS y distintos instrumentos de medición y sistemas externos. También nombraremos el envío de avisos de nuevos datos a entres reguladores.
 
-\begin{tikzpicture}
-  \begin{umlsystem}[x=0, y=0, fill=green!10]{ARS}
-    %--casos de uso
-    \umlusecase[x=0, y=0, width=2cm, name=RecibiendoMedicionDeTemperatura]{Recibiendo medición de temperatura}
-    \umlusecase[x=3, y=0, width=1.5cm, name=BuscandoAnomalias]{Buscando Anomalías}
-    \umlusecase[x=0, y=-2, width=1.5cm, name=ActivandoAlarma]{Activando Alarma}
-    \umlusecase[x=3, y=-2, width=2cm, name=RecibiendoMedicionDePresion]{Recibiendo medición de presión}
-    \umlusecase[x=1.5, y=-4, width=2cm, name=InformandoQueHayNuevosDatos]{Informando que hay nuevos datos}
-  \end{umlsystem}
+\par Antes que nada, vamos a enumerar los actores que participan y explicar un poco de qué se tratan:
+\begin{itemize}
+  \item \textbf{Sensor de temperatura} y \textbf{Sensor de presión}: Se trata de equipos físicos externos que informarán al sistema sobre distintos datos de temperatura y presión del simulador SimOil.
+  \item \textbf{SimOil}: Se trata de un módulo del simulador SimOil con el cual el sistema interactuará para pedirle datos que crea necesarios para detectar anomalías.
+  \item \textbf{Encargado de SMS}: Se trata de un módulo de un sistema externo con el cual el sistema ARS interactuará para pedirle que realice el envío de mensajes SMS.
+  \item \textbf{Ente regulador}: Se trata de un módulo de un sistema propio del Ente reguladora con el cual el sistema ARS interactuará para dar aviso de nuevos datos capturados.
+\end{itemize}
 
-  %--actores
-  \umlactor[x=-4, y=0]{Sensor de temperatura}
-  \umlactor[x=7, y=0]{SimOil}
-  \umlactor[x=7, y=-2]{Sensor de presion}
-  \umlactor[x=-4, y=-2]{Encargado de SMS}
-  \umlactor[x=7, y=-4]{Ente regulador}
+\par En el gráfico de la figura \ref{fig:casosuso_sistemas} podemos ver cómo los distintos actores se relacionan con los siguientes casos de uso:
 
-  %--relacion actores - casos de uso
-  \umlassoc{Sensor de presion}{RecibiendoMedicionDePresion}
-  \umlassoc{Sensor de temperatura}{RecibiendoMedicionDeTemperatura}
-  \umlassoc{SimOil}{BuscandoAnomalias}
-  \umlassoc{Encargado de SMS}{ActivandoAlarma}
-  \umlassoc{Ente regulador}{InformandoQueHayNuevosDatos}
-\end{tikzpicture}
+\begin{itemize}
+  \item \textbf{Recibiendo medición de temperatura}: El actor \textit{Sensor de temperatura} envía al sistema ARS un dato de temperatura capturado en el SimOil. Al recibirlo, el sistema lo almacena para luego ser procesado por distintos módulos y da aviso al sensor de que los datos fueron recibidos corréctamente.
+  \item \textbf{Recibiendo medición de presión}: El actor \textit{Sensor de presión} envía al sistema ARS un dato de presión tomado del SimOil y espera el aviso de recepción por parte del sistema. Al igual que en el caso anterior, el sistema simplemente lo almacena para ser procesado mas tarde.
+  \item \textbf{Buscando anomalías}: Previo a realizar distintos procesos de detección de anomalías, el sistema debe contar con distintos datos del estado actual del simulador SimOil. Por esto, envía uno o mas pedidos de información al actor \textbf{SimOil}. Este simplemente devuelve la información solicitada. Luego de esto, continúa normalmente la búsqueda de anomalías.
+\end{itemize}
+
+\begin{figure}[ht]
+  \center
+  \begin{tikzpicture}
+    \begin{umlsystem}[x=0, y=0, fill=green!10]{ARS}
+      %--casos de uso
+      \umlusecase[x=0, y=0, width=2cm, name=RecibiendoMedicionDeTemperatura]{Recibiendo medición de temperatura}
+      \umlusecase[x=3, y=0, width=1.5cm, name=BuscandoAnomalias]{Buscando Anomalías}
+      \umlusecase[x=0, y=-2, width=1.5cm, name=ActivandoAlarma]{Activando Alarma}
+      \umlusecase[x=3, y=-2, width=2cm, name=RecibiendoMedicionDePresion]{Recibiendo medición de presión}
+      \umlusecase[x=1.5, y=-4, width=2cm, name=InformandoQueHayNuevosDatos]{Informando que hay nuevos datos}
+    \end{umlsystem}
+
+    %--actores
+    \umlactor[x=-4, y=0]{Sensor de temperatura}
+    \umlactor[x=7, y=0]{SimOil}
+    \umlactor[x=7, y=-2]{Sensor de presion}
+    \umlactor[x=-4, y=-2]{Encargado de SMS}
+    \umlactor[x=7, y=-4]{Ente regulador}
+
+    %--relacion actores - casos de uso
+    \umlassoc{Sensor de presion}{RecibiendoMedicionDePresion}
+    \umlassoc{Sensor de temperatura}{RecibiendoMedicionDeTemperatura}
+    \umlassoc{SimOil}{BuscandoAnomalias}
+    \umlassoc{Encargado de SMS}{ActivandoAlarma}
+    \umlassoc{Ente regulador}{InformandoQueHayNuevosDatos}
+  \end{tikzpicture}
+  \caption{Gráfico de casos de uso relacionados con sistemas e instrumentos externos y otros iniciados por el sistema.}
+  \label{fig:casosuso_sistemas}
+\end{figure}
