@@ -1,0 +1,51 @@
+\section{Atributos de Calidad}
+
+\subsection{Escenarios generales}
+
+\subsubsection{Seguridad}
+
+%1. Fuente: Individuo o parte del sistema.
+%2. Estímulo: Acceder a los datos, cambiarlos, acceder a servicios del sistema, reducir la disponibilidad del servicio, etc.
+%3. Artefacto: Servicios o datos del Sistema.
+%4. Entorno: Online/Offline, firewall, config. de seguridad, etc.
+%5. Respuesta: Autenticación del usuario, se bloquea acceso, se otorgan/niegan permisos, se loguean intentos no autorizados, etc.
+%6. Medición: Costos/esfuerzos en resolver el problema, tasas de éxito, grado en la información perdida, etc.
+
+{\bf Log In}
+\begin{enumerate}
+\item {\bf Fuente}: Usuario del Ministerio
+\item {\bf Estímulo}: Acceder a los datos del sistema de monitoreo
+\item {\bf Artefacto}: Modulo de LogIn
+\item {\bf Entorno}: Sistema online y usuario deslogueado. 
+\item {\bf Respuesta}: Autenticación del usuario
+\end{enumerate}
+
+{\bf Autenticación}
+\begin{enumerate}
+\item {\bf Fuente}: Usuario
+\item {\bf Estímulo}: Ingresar contraseña válida
+\item {\bf Artefacto}: Sistema de Autenticación
+\item {\bf Entorno}: Sistema online y usuario deslogueado. 
+\item {\bf Respuesta}: Se autenticación del usuario, loguea el evento y se habilita el acceso al sistema
+\item {\bf Medición}: Cien por cien de efectividad.
+\end{enumerate}
+
+\textbf{Autenticación fallida}
+\begin{enumerate}
+\item {\bf Fuente}: Usuario
+\item {\bf Estímulo}: Ingresar contraseña incorrecta
+\item {\bf Artefacto}: Sistema de Autenticación
+\item {\bf Entorno}: Sistema online y usuario deslogueado. 
+\item {\bf Respuesta}: Se loguea intenta no autorizado y se le bloquea el acceso. 
+\item {\bf Medición}: Cien por cien de efectividad.
+\end{enumerate}
+
+{\bf Autorización}
+\begin{enumerate}
+\item {\bf Fuente}: Usuario logueado con rol XXX
+\item {\bf Estímulo}: Acceder a los datos 
+\item {\bf Artefacto}:  
+\item {\bf Entorno}: 
+\item {\bf Respuesta}: 
+\item {\bf Medición}: 
+\end{enumerate}
