@@ -34,3 +34,37 @@
   \caption{#2} \label{fig:#4}
 \end{figure}
 }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Custom functions for Use Cases
+\newcommand{\curef}[1]{\textbf{Caso de uso \ref{cu:#1}}}
+\newcommand{\cutitle}[1]{\renewcommand{\givencutitle}{#1}}
+\newcommand{\cuactors}[1]{\renewcommand{\givencuactors}{#1}}
+\newcommand{\cupre}[1]{\renewcommand{\givencupre}{#1}}
+\newcommand{\cupost}[1]{\renewcommand{\givencupost}{#1}}
+\newcommand{\cucourse}[1]{\renewcommand{\givencucourse}{#1}}
+\newcommand{\culabel}[1]{\renewcommand{\givenculabel}{#1}}
+\newcommand{\cucaption}[1]{\renewcommand{\givencucaption}{#1}}
+\newcommand{\givencutitle}{REQUIRED!}
+\newcommand{\givencuactors}{REQUIRED!}
+\newcommand{\givencupre}{-}
+\newcommand{\givencupost}{-}
+\newcommand{\givencucourse}{REQUIRED!}
+\newcommand{\givenculabel}{REQUIRED!}
+\newcommand{\givencucaption}{} % optional
+
+\newenvironment{casodeuso}
+{\begin{table}[H]}{%
+\hspace*{-30pt}\begin{tabular}{|p{0.6\linewidth} p{0.5\linewidth}|}\hline
+\multicolumn{2}{|l|}{\textbf{Caso de Uso: \ref{cu:\givenculabel}) \givencutitle}} \\
+\multicolumn{2}{|l|}{\textbf{Actores:} \givencuactors} \\
+\multicolumn{2}{|l|}{\textbf{Pre:} \givencupre} \\
+\multicolumn{2}{|l|}{\textbf{Post:} \givencupost} \\
+\vspace{1px}\textbf{Curso Normal} & \vspace{1px}\textbf{Curso Alternativo} \\
+\givencucourse
+\hline
+\end{tabular}
+\caption{\givencutitle}
+\label{cu:\givenculabel}
+\end{table}}
