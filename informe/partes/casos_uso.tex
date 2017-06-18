@@ -12,8 +12,8 @@
 
 \begin{casodeuso}
   \cutitle{Resolviendo un evento de alarma}
-  \cuactors{}
-  \cupre{El sistema debe encontrarse en modo alarma como consecuencia del evento que el usuario desea resolver}
+  \cuactors{Encargado de alarmas}
+  \cupre{El sistema debe encontrarse en modo alarma como consecuencia del evento que el usuario desea resolver.}
   \cupost{El sistema pasa a estar nuevamente en estado normal y el evento se marcará como resuelto.}
   \cucourse{
     1) El sistema carga la información del evento: Yacimiento o pozo involucrado, el o los instrumentos de medición responsables, fecha y hora de la medición, entre otros datos. & \\
@@ -22,10 +22,41 @@
 
     3) El usuario completa los campos de la explicación de la acción correctiva tomada: tipo de acción, fecha y hora de la acción, persona encargada de realizar la acción y observaciones adicionales. & \\
     4) El usuario indica que quiere guardar la revisión. & \\
-    5) El sistema le consulta al usuario si está seguro que desea guardar la revisión. & 
+    5) El sistema le consulta al usuario si está seguro que desea guardar la revisión. &
       5.1) Si el usuario ingresa que no, vuelve a la parte de edición de datos de revisión. \\
     6) El sistema guarda los datos y le muestra al usuario un mensaje de aviso. & \\
     7) Fin del caso. & \\
   }
-  \culabel{autenticandose}
+  \culabel{resoviendo_alarma}
+\end{casodeuso}
+
+\begin{casodeuso}
+  \cutitle{Activando Alarma}
+  \cuactors{Encargado de SMS}
+  \cupre{El sistema debe encontrarse en modo normal y se tuvo que haber encontrado una anomalía.}
+  \cupost{El sistema pasa a estar en modo alarma y se realiza el envío de SMS con éxito.}
+  \cucourse{
+    1) El sistema pasa a estar en modo alarma. & \\
+    2) El sistema crea un evento con los datos de la anomalía detectada. & \\
+    3) El sistema busca los datos del servidor de envío de SMS y los datos del encargado de alarmas. & \\
+    4) El sistema manda al \textit{Encargado de SMS} la petición para enviar un mensaje al encargado de alarmas. & \\
+    5) El sistema espera la confirmación del \textit{Encargado de SMS}. &
+      5.1) Si se supera el tiempo de espera máximo, se espera un tiempo determinado y se reenvía la petición al servidor 4) \\
+    6) Fin del caso. & \\
+  }
+  \culabel{activando_alarma}
+\end{casodeuso}
+
+\begin{casodeuso}
+  \cutitle{Recibiendo medición de temperatura}
+  \cuactors{Sensor de Temperatura}
+  \cupre{}
+  \cupost{El dato de medición se almacena con éxito y se confirma al sensor la recepción del dato.}
+  \cucourse{
+    1) El \textit{Sensor de Temperatura} envía un dato de medición al sistema. & \\
+    2) El sistema toma el dato recibido y lo almacena para luego ser procesado. & \\
+    3) El sistema envía un aviso de recepción exitosa al \textit{Sensor de Temperatura}, para que este no reenvíe los datos. & \\
+    6) Fin del caso. & \\
+  }
+  \culabel{recibiendo_temperatura}
 \end{casodeuso}
