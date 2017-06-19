@@ -1,9 +1,99 @@
-{\bf Acceso usuarios del ente regulador}
-\begin{enumerate}
-\item {\bf Fuente}: 
-\item {\bf Estímulo}: 
-\item {\bf Artefacto}:  
-\item {\bf Entorno}: 
-\item {\bf Respuesta}: 
-\item {\bf Medición}: 
-\end{enumerate}
+\section{Atributos de Calidad}
+
+\subsection{Disponibilidad}
+
+Backup en caso de pérdida o siniestro
+\begin{itemize}
+\item {\bf Fuente}: Vulnerabilidad en el sistema
+\item {\bf Estímulo}: Daño directo en los datos almacenados
+\item {\bf Artefacto}: Base de datos
+\item {\bf Entorno}: Sistema en estado normal
+\item {\bf Respuesta}: Loguear falla y restaurar último backup
+\item {\bf Medición}: No crashear el sistema al no poder acceder a la BD y recuperar el estado normal del sistema en menos de 15 segundos 
+\end{itemize}
+
+Tolerancia a fallas
+\begin{itemize}
+\item {\bf Fuente}: Sensor
+\item {\bf Estímulo}: Fuera de funcionamiento
+\item {\bf Artefacto}: Interfaz de sensores
+\item {\bf Entorno}: Sistema en estado normal
+\item {\bf Respuesta}: Se deshabilita el sensor para no crashear el sistema
+\item {\bf Medición}: El sistema continúa en ejecución frente a problemas externos de los sensores
+\end{itemize}
+
+La activación de la alarma implica dar aviso en forma inmediata al Jefe de Operaciones del yacimiento via un servicio de sms
+\begin{itemize}
+\item {\bf Fuente}: Encargado de SMS
+\item {\bf Estímulo}: notificación de SMS no enviado
+\item {\bf Artefacto}: Interfaz de envío de SMS
+\item {\bf Entorno}: Sistema en estado de alerta
+\item {\bf Respuesta}: Se gestiona algún mecanismo para repetir el envío del mensaje hasta lograrlo con éxito
+\item {\bf Medición}: El sistema continúa en funcionamiento durante el estado de alarma y a su vez no debe dejar de intentar el envío de SMS hasta no recibir el aviso de envío exitoso
+\end{itemize}
+
+\subsection{Performance}
+
+El sistema no debe tener ningún tipo de demoras
+\begin{itemize}
+\item {\bf Fuente}: Jefe de Operaciones
+\item {\bf Estímulo}: Alta de un evento por resolución de incidente
+\item {\bf Artefacto}: UI del ABM
+\item {\bf Entorno}: Sistema en estado normal, con sobrecarga de usuarios de consulta, provenientes del Ministerio y Entes Reguladores
+\item {\bf Respuesta}: Se gestiona algún mecanismo para tomar la operación realizada por el Jefe de Operaciones, evitando que el mismo perciba algún tipo de demora
+\item {\bf Medición}: El sistema no tarda mas de dos segundos en resolver la operación para el 95 por ciento de las consultas
+\end{itemize}
+
+La activación de la alarma implica dar aviso en forma inmediata al Jefe de Operaciones del yacimiento via un servicio de sms
+\begin{itemize}
+\item {\bf Fuente}: Módulo de detección de anomalías
+\item {\bf Estímulo}: Detección de anomalía
+\item {\bf Artefacto}: Interfaz de envío de SMS
+\item {\bf Entorno}: Sistema en estado normal, con sobrecarga de usuarios de consulta, provenientes del Ministerio y Entes Reguladores. Los datos de contacto son correctos, el celular destinatario tiene señal y el servicio de SMS está activo
+\item {\bf Respuesta}: Se gestiona algún mecanismo para ejecutar el envío del mensaje lo antes posible, con los recursos necesarios para evitar cualquier tipo de demora
+\item {\bf Medición}: El sistema envía el mensaje en menos de 2 segundos después de la detección de la anomalía y recibe la notificación de recepción de SMS en menos de 10 segundos mas 
+\end{itemize}
+
+Manejo de grandes volúmenes de datos
+\begin{itemize}
+\item {\bf Fuente}: Usuario Visualizador de Eventos
+\item {\bf Estímulo}: Accede a ver un evento
+\item {\bf Artefacto}: UI e interfaz con BD
+\item {\bf Entorno}: Sistema en estado normal, con sobrecarga de usuarios de consulta, provenientes del Ministerio y Entes Reguladores.
+\item {\bf Respuesta}: Se muestra el evento requerido con todos sus datos correctos
+\item {\bf Medición}: El sistema envía muestra la información solicitada en menos de 5 segundos en el 95 por ciento de los casos
+\end{itemize}
+
+\subsection{Usabilidad}
+
+Manejo de grandes volúmenes de datos
+\begin{itemize}
+\item {\bf Fuente}: Usuario Visualizador de Eventos
+\item {\bf Estímulo}: Accede a ver un evento
+\item {\bf Artefacto}: UI e interfaz con BD
+\item {\bf Entorno}: Sistema en estado normal, con sobrecarga de usuarios de consulta, provenientes del Ministerio y Entes Reguladores.
+\item {\bf Respuesta}: Se muestra una imagen de carga del estilo "reloj de arena", mientras se cargan los datos solicitados
+\item {\bf Medición}: El porcentaje de usuarios que abandonan la ventana es menor al 5 por ciento
+\end{itemize}
+
+Acceso al sistema de monitoreo/informes desde el Ministerio/Entes Reguladores
+\begin{itemize}
+\item {\bf Fuente}: Usuario Visualizador
+\item {\bf Estímulo}: Accede al sistema desde su lugar de trabajo
+\item {\bf Artefacto}: Módulo de Autenticación
+\item {\bf Entorno}: Sistema en estado normal, se ingresan datos válidos de logueo
+\item {\bf Respuesta}: Se loguea el usuario indicado y se muestra el panel o dashboard que le corresponde al rol vinculado con su usuario, con el fin de optimizar la navegación por el sistema 
+\item {\bf Medición}: Tiempo de navegación dentro del sistema
+\end{itemize}
+
+\subsection{Testeabilidad}
+
+[El proceso de Limpieza] puede remover aproximadamente un 80 por ciento de estas anomalías de la mayoría de los conjuntos de datos
+\begin{itemize}
+\item {\bf Fuente}: Set de valores con anomalías introducidas de manera controlada
+\item {\bf Estímulo}: Ejecución de sistema con dichos valores
+\item {\bf Artefacto}: Módulo de detección de anomalías
+\item {\bf Entorno}: Sistema en estado normal, en desarrollo
+\item {\bf Respuesta}: Se registran los valores aceptados "en crudo" y aquellos que fueron filtrados en la limpieza, en la BD, por cada set de datos
+\item {\bf Medición}: Se compara en cada set, los datos filtrados por sobre el total de anomalías insertadas. El porcentaje debe ser aproximadamente del 80 por ciento, con 5 por ciento de margen de error.
+\end{itemize}
