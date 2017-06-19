@@ -8,7 +8,7 @@
 \subsection{Explicación en detalle de los casos mas importantes}
 \label{sec:casosuso_cuadros}
 
-\par A continuación, tomaremos 3 casos de uso y pasaremos a explicarlos en detalle. Los casos de uso seleccionados fueron los que nos parecieron mas importantes y que mas aportaban al entendimiento del sistema general.
+\par A continuación, tomaremos algunos casos de uso y pasaremos a explicarlos en detalle. Seleccionamos los que nos parecieron mas importantes y que mas aportaban al entendimiento del sistema general.
 
 \begin{casodeuso}
   \cutitle{Resolviendo un evento de alarma}
@@ -16,15 +16,15 @@
   \cupre{El sistema debe encontrarse en modo alarma como consecuencia del evento que el usuario desea resolver.}
   \cupost{El sistema pasa a estar nuevamente en estado normal y el evento se marcará como resuelto.}
   \cucourse{
-    1) El sistema carga la información del evento: Yacimiento o pozo involucrado, el o los instrumentos de medición responsables, fecha y hora de la medición, entre otros datos. & \\
-    2) El sistema muestra al usuario dos botones para seleccionar si se trata de una falsa alarma o si no. &
+    1) El sistema carga la información del evento: Yacimiento, pozo involucrado, el o los instrumentos de medición responsables de la alarma, fecha y hora de la medición, entre otros datos. & \\
+    2) El sistema muestra al \textit{Encargado de alarmas} dos botones para seleccionar si se trata de una falsa alarma o si no. &
       2.1) Si el usuario indica que se trató de una falsa alarma pasa directamente a la confirmación de los datos a guardar 5).\\
 
     3) El usuario completa los campos de la explicación de la acción correctiva tomada: tipo de acción, fecha y hora de la acción, persona encargada de realizar la acción y observaciones adicionales. & \\
     4) El usuario indica que quiere guardar la revisión. & \\
     5) El sistema le consulta al usuario si está seguro que desea guardar la revisión. &
       5.1) Si el usuario ingresa que no, vuelve a la parte de edición de datos de revisión. \\
-    6) El sistema guarda los datos y le muestra al usuario un mensaje de aviso. & \\
+    6) El sistema guarda los datos en el formulario de eventos y le muestra al usuario un mensaje de aviso. & \\
     7) Fin del caso. & \\
   }
   \culabel{resoviendo_alarma}
@@ -40,8 +40,8 @@
     2) El sistema crea un evento con los datos de la anomalía detectada. & \\
     3) El sistema busca los datos del servidor de envío de SMS y los datos del encargado de alarmas. & \\
     4) El sistema manda al \textit{Encargado de SMS} la petición para enviar un mensaje al encargado de alarmas. & \\
-    5) El sistema espera la confirmación del \textit{Encargado de SMS}. &
-      5.1) Si se supera el tiempo de espera máximo, se espera un tiempo determinado y se reenvía la petición al servidor 4) \\
+    5) El sistema espera la confirmación de envío satisfactorio del SMS. &
+      5.1) Si se supera el tiempo de espera máximo, se espera un tiempo determinado y se reenvía la petición al servidor como en 4) \\
     6) Fin del caso. & \\
   }
   \culabel{activando_alarma}
@@ -50,13 +50,12 @@
 \begin{casodeuso}
   \cutitle{Recibiendo medición de temperatura}
   \cuactors{Sensor de Temperatura}
-  \cupre{}
-  \cupost{El dato de medición se almacena con éxito y se confirma al sensor la recepción del dato.}
+  \cupre{Ninguno}
+  \cupost{El dato de medición se almacena con éxito.}
   \cucourse{
     1) El \textit{Sensor de Temperatura} envía un dato de medición al sistema. & \\
     2) El sistema toma el dato recibido y lo almacena para luego ser procesado. & \\
-    3) El sistema envía un aviso de recepción exitosa al \textit{Sensor de Temperatura}, para que este no reenvíe los datos. & \\
-    6) Fin del caso. & \\
+    3) Fin del caso. & \\
   }
   \culabel{recibiendo_temperatura}
 \end{casodeuso}
@@ -64,13 +63,13 @@
 \begin{casodeuso}
   \cutitle{Autenticación de un usuario}
   \cuactors{Usuario sin identificar}
-  \cupre{El usuario no debe estar autenticado y debe estar registrado en el sistema}
+  \cupre{El usuario no debe estar autenticado, debe estar registrado (durante el vuelco inicial de datos en la BD)}
   \cupost{El usuario ingresa al sistema}
   \cucourse{
     1) El usuario ingresa a la pantalla de inicial del sistema en la cual figura un formulario con dos campos, uno para el nombre de usuario y otro para la contraseña. & \\
     2) El usuario completa el formulario y apreta un botón que dice ''Ingresar''. & 
         2.1) Si los datos son incorrectos se le impide el ingreso al usuario, permanece en la misma pantalla pero con un cartel que indica que el ingreso no fue autorizado por escribir credenciales incorrectas. Se vuelve al paso 1.& \\
-    3) El usuario ingresa a la pantalla correspondiente al tipo de usuario. & \\
+    3) El usuario ingresa a la pantalla correspondiente al tipo de usuario ingresado. & \\
     4) Fin de caso de uso. & \\
   }
 \end{casodeuso}
