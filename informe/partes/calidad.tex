@@ -1,5 +1,46 @@
 \section{Atributos de Calidad}
 
+\subsubsection{Seguridad}
+
+{\bf Log In}
+\begin{enumerate}
+\item {\bf Fuente}: Usuario del Ministerio
+\item {\bf Estímulo}: Acceder a los datos del sistema de monitoreo
+\item {\bf Artefacto}: Modulo de LogIn
+\item {\bf Entorno}: Sistema online y usuario deslogueado. 
+\item {\bf Respuesta}: Autenticación del usuario
+\end{enumerate}
+
+{\bf Autenticación}
+\begin{enumerate}
+\item {\bf Fuente}: Usuario
+\item {\bf Estímulo}: Ingresar contraseña válida
+\item {\bf Artefacto}: Sistema de Autenticación
+\item {\bf Entorno}: Sistema online y usuario deslogueado. 
+\item {\bf Respuesta}: Se autenticación del usuario, loguea el evento y se habilita el acceso al sistema
+\item {\bf Medición}: Cien por cien de efectividad.
+\end{enumerate}
+
+\textbf{Autenticación fallida}
+\begin{enumerate}
+\item {\bf Fuente}: Usuario
+\item {\bf Estímulo}: Ingresar contraseña incorrecta
+\item {\bf Artefacto}: Sistema de Autenticación
+\item {\bf Entorno}: Sistema online y usuario deslogueado. 
+\item {\bf Respuesta}: Se loguea intenta no autorizado y se le bloquea el acceso. 
+\item {\bf Medición}: Cien por cien de efectividad.
+\end{enumerate}
+
+{\bf Autorización}
+\begin{enumerate}
+\item {\bf Fuente}: Usuario logueado con rol de un ente regulador
+\item {\bf Estímulo}: Acceder a los informes de eventos críticos
+\item {\bf Artefacto}: Sistema
+\item {\bf Entorno}: Online
+\item {\bf Respuesta}: Se autoriza al usuario a acceder a los informes de eventos críticos
+\item {\bf Medición}: Cien por cien de efectividad
+\end{enumerate}
+
 \subsection{Disponibilidad}
 
 Backup en caso de pérdida o siniestro
