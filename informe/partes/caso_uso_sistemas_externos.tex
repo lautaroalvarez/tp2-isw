@@ -2,20 +2,24 @@
 
 \par En esta subsección vamos a mencionar y dar una explicación general de las interacciones entre el sistema ARS y distintos instrumentos de medición y sistemas externos. También nombraremos el envío de avisos de nuevos datos a entres reguladores.
 
-\par Antes que nada, vamos a enumerar los actores que participan y explicar un poco de qué se tratan:
+\par Antes que nada, vamos a enumerar los actores que participan y explicar un poco de qué tratan:
 \begin{itemize}
-  \item \textbf{Sensor de temperatura} y \textbf{Sensor de presión}: Se trata de equipos físicos externos que informarán al sistema sobre distintos datos de temperatura y presión del simulador SimOil.
-  \item \textbf{SimOil}: Se trata de un módulo del simulador SimOil con el cual el sistema interactuará para pedirle datos que crea necesarios para detectar anomalías.
-  \item \textbf{Encargado de SMS}: Se trata de un módulo de un sistema externo con el cual el sistema ARS interactuará para pedirle que realice el envío de mensajes SMS.
-  \item \textbf{Ente regulador}: Se trata de un módulo de un sistema propio del Ente reguladora con el cual el sistema ARS interactuará para dar aviso de nuevos datos capturados.
+  \item \textbf{Sensor de temperatura} y \textbf{Sensor de presión}: Se trata de equipos físicos externos que informarán al sistema sobre distintos datos de temperatura y presión de los pozos del yacimiento en cuestión.
+  \item \textbf{SimOil}: Se trata de una interfaz del simulador SimOil con la cual el sistema interactuará para comparar los datos que crea necesario para detectar anomalías en los valores registrados.
+  \item \textbf{Encargado de SMS}: Se trata de un módulo de un sistema externo (servidor de SMS) con el cual el sistema ARS interactuará para pedirle que realice el envío de mensajes SMS al Jefe de Operaciones, durante la activación de una alarma provocada por la detección de una anomalía.
+  \item \textbf{Servidor de Mails}: Se trata de una interfaz con un Servidor de emails por el cual el sistema ARS le informará la existencia de nuevos registros en el formulario de eventos y la captura de nuevos datos a los Entes reguladores.
 \end{itemize}
 
 \par En el gráfico de la figura \ref{fig:casosuso_sistemas} podemos ver cómo los distintos actores se relacionan con los siguientes casos de uso:
 
 \begin{itemize}
-  \item \textbf{Recibiendo medición de temperatura}: El actor \textit{Sensor de temperatura} envía al sistema ARS un dato de temperatura capturado en el SimOil. Al recibirlo, el sistema lo almacena para luego ser procesado por distintos módulos y da aviso al sensor de que los datos fueron recibidos corréctamente.
-  \item \textbf{Recibiendo medición de presión}: El actor \textit{Sensor de presión} envía al sistema ARS un dato de presión tomado del SimOil y espera el aviso de recepción por parte del sistema. Al igual que en el caso anterior, el sistema simplemente lo almacena para ser procesado mas tarde.
-  \item \textbf{Buscando anomalías}: Previo a realizar distintos procesos de detección de anomalías, el sistema debe contar con distintos datos del estado actual del simulador SimOil. Por esto, envía uno o mas pedidos de información al actor \textbf{SimOil}. Este simplemente devuelve la información solicitada. Luego de esto, continúa normalmente la búsqueda de anomalías.
+  \item \textbf{Recibiendo medición de temperatura}: El actor \textit{Sensor de temperatura} envía al sistema ARS un dato de temperatura capturado en algún pozo. Al recibirlo, el sistema almacena el dato original para luego ser procesado por distintos módulos.
+  \item \textbf{Recibiendo medición de presión}: El actor \textit{Sensor de presión} envía al sistema ARS un dato de presión tomado de algún pozo. Al igual que en el caso anterior, el sistema simplemente lo almacena para ser procesado.
+  \item \textbf{Buscando anomalías}: Previo a realizar distintos procesos de detección de anomalías, el sistema debe contar con distintos datos del simulador SimOil, con el objetivo de comparar los datos calculados con los provistos por SimOil. Por esto, envía uno o mas pedidos de información al actor \textbf{SimOil}. Este simplemente devuelve la información solicitada. Luego de esto, compara los datos recibidos con los calculados previamente y continúa la búsqueda de anomalías.
+  \item \textbf{Activando Alarma}:
+  Al detectar una anomalía, el sistema entra en estado de alerta y debe dar aviso de la situación al Jefe de Operaciones, por medio de un mensaje SMS. Para ello, el sistema ARS debe interactuar con un actor \textbf{Encargado de SMS}, a fin de poder enviar el mensaje de manera inmediata. El sistema debe asegurarse que el mensaje sea enviado efectivamente, y quedará a la espera de la resolución del Jefe de Operaciones. Luego que el mismo actualice el status del yacimiento en el formulario, el sistema volvera a su estado normal.
+  \item \textbf{Informando que hay nuevos datos}:
+  Cuando el sistema almacena nuevos datos (en crudo o procesados) y mas aún cuando hay nuevos eventos anómalos, se debe informar a los Entes Reguladores sobre los mismos. Para ellos, se requiere del actor \textbf{Servidor de Mails}. Para evitar filtrar información sensible por este tipo de canales, no se informarán los detalles de los mismos, solamente se dará aviso de la existencia de nuevos datos como para que los receptores entren al sistema y una vez autenticados, puedan ver el nuevo contenido directamente dentro de ARS.
 \end{itemize}
 
 \begin{figure}[ht]
@@ -35,14 +39,14 @@
     \umlactor[x=7, y=0]{SimOil}
     \umlactor[x=7, y=-2]{Sensor de presion}
     \umlactor[x=-4, y=-2]{Encargado de SMS}
-    \umlactor[x=7, y=-4]{Ente regulador}
+    \umlactor[x=7, y=-4]{Servidor de Mails}
 
     %--relacion actores - casos de uso
     \umlassoc{Sensor de presion}{RecibiendoMedicionDePresion}
     \umlassoc{Sensor de temperatura}{RecibiendoMedicionDeTemperatura}
     \umlassoc{SimOil}{BuscandoAnomalias}
     \umlassoc{Encargado de SMS}{ActivandoAlarma}
-    \umlassoc{Ente regulador}{InformandoQueHayNuevosDatos}
+    \umlassoc{Servidor de Mails}{InformandoQueHayNuevosDatos}
   \end{tikzpicture}
   \caption{Gráfico de casos de uso relacionados con sistemas e instrumentos externos y otros iniciados por el sistema.}
   \label{fig:casosuso_sistemas}
