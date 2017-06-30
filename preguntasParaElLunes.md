@@ -1,0 +1,4 @@
+-tenemos que hacer algo de roles de usuario? (un componente para validar los roles)
+-agregacion tiene que comunicarle al detector de anomaliasque termino
+-cuando se muere el sensor que onda? manda frula o deja de mandar cosas?
+-la info estará centralizada dentro del Ministerio. puedo poner ars en el ministerio o los repos estan alla?  
