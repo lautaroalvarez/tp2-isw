@@ -1,0 +1,15 @@
+\section{Conclusiones}
+
+En este trabajo nos centramos en diseñar un sistema ARS para procesar los datos generados por sensores de temperatura y presión en pozos de extracción de petróleo, que luego utilizarán ingenieros de forma remota y así prevenir eventuales catástrofes por el mal uso de los recursos.
+
+La solución presentada especifica los principales casos de usos (actores, condiciones en las que se dá el caso, y el curso alternativo ante cualquier eventualidad), escenarios típicos que permitirán medir los atributos de calidad del sistema, y suma, al final, unas vistas híbridas, entre la de componentes y conectores y la de deployment, que muestran gráficamente la arquitectura completa del ARS. Este diseño arquitectónico es un esquema de organización estructural del sistema con un nivel de abstracción alto en donde se muestran las relaciones entre los componentes, que bien pueden ser de software o hardware, y donde se describe qué es lo que hace cada uno sin entrar en el detalle del cómo lo hace, pero cuyas tareas son potencialmente complejas.
+
+Este enfoque, conocido como \textit{programming in the large}, está en contraste con el abordado en el TP1. Allí, la implementación la documentamos mediante diagramas del diseño orientado a objetos, el cual nos permitió mostrar componentes a bajo nivel: clases, que se terminan programando, y los objetos, como instancias de las primeras. La interacción entre ellos es más simples y los diagramas nos permitían un mayor detalle de qué es lo que hace cada objeto, pero aún así ocultando el cómo. Esta forma de diseñar se la conoce como \textit{programming in the small}.
+
+En las vistas de arquitectura que hicimos, utilizamos tácticas para reforzar los escenarios de atributos de calidad que escribimos primero, como la Seguridad, Disponibilidad y Performance. Pero no nos permite implementar táctica para atacar los atributos de Modificabilidad, Usabilidad y Testeabilidad.
+
+% Patrones de diseño vs Estilos y tácticas de diseño (no es un versus sino una comparación de ejemplos que nos ayudan a solucionar problemas comunes)
+
+% Arquitectura: se programa en alto nivel, se muestra más las relaciones entre los componentes del sistema, y se especifica qué es lo que hace cada uno, sin entrar en el detalle de cómo lo hace. Esquema de organización estructural del sistema con un nivel de abstracción mayor que el de diseño. No se puede mostrar modificabilidad, usabilidad y testeabilidad.
+
+% Diseño: es bajo nivel. relaciones entre objetos y clases.
