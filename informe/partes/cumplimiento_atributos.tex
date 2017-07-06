@@ -4,31 +4,49 @@
 
 \subsection{Performance}
 
-\par
+\begin{itemize}
+    \item \textbf{El sistema no debe tener ningún tipo de demoras:}
+    \par Este atributo de calidad hace referencia principalmente a la interacción de los usuarios con las interfaces del sistema, pero también requiere que, de ser posible, el sistema no deje nunca de funcionar. Para satisfacer este pedido, se tomaron determinaciones que afectaron a distintas partes del sistema. En primer lugar, utilizamos concurrencia en los componentes \textit{Buscador de eventos} y \textit{Buscador de datos históricos}, para poder responder a todos los pedidos de clientes en simultaneo. Al mismo tiempo, el \textit{Buscador de datos históricos} implementa un sistema de paginado que nos asegura tener control sobre la cantidad de datos y el tiempo que le llevará al sistema procesarlos. Para el caso del componente \textit{Archivador de revisión}, no creimos necesaria concurrencia, debido a que solo el encargado de resolver los eventos (Jefe de Operaciones) tendrá acceso a este servicio y deberá guardar una revisión solo en los casos de alarma.
+    
+    \item \textbf{Dar aviso en forma inmediata vía un servicio de SMS:}
+    \par Para resolver este requerimiento, se pensó un procedimiento para asgegurar que cada SMS va a enviarse lo antes posible (siempre limitados por el servicio externo). En primer lugar, al detectarse una anomalía, el componente \textit{Detector de anomalías} da aviso inmediato al \textit{Activador de alarmas}, quien se lo comunica al \textit{Enviador de avisos de alarma}. Este componente intenta iniciar una conexión con el servidor de SMS para pedir el envío del aviso. En caso positivo, el proceso termina. En caso que el servidor de SMS no responda o no pueda procesar nuestro pedido, el mensaje es guardado en el \textit{Repositorio de mensajes pendientes} y se configura el \textit{Timer} para que dé aviso al \textit{Enviador de avisos de alarma} en 2 segundos. Cuando el componente recibe este aviso por parte del \textit{Timer}, busca en el \textit{Repositorio de mensajes pendientes} si hay mensajes para enviar y repite el proceso previo: si se logra enviar se elimina del repositorio, sino se configura el \textit{Timer} nuevamente.
+
+    \item \textbf{Manejo de grandes volúmenes de datos:}
+    \par Para este escenario decidimos que la mejor solución, al igual que con el escenario que especifica que no debe haber demoras, era aplicar la táctica de concurrencia en los componentes que se encargan de leer el repositorio de eventos. Al mismo tiempo, se utiliza concurrencia dentro del \textit{Procesador de mediciones} para contemplar la gran cantidad de mediciones que envían constantemente los sensores.
+    
+    \item \textbf{Detección y aviso de eventos catastróficos:}
+    \par Con todas las medidas tomadas y mencionadas previamente, creemos que desde la recepción de datos de medición hasta el envío del SMS que alerta al encargado se tiene un tiempo adecuado para que el jefe de operaciones pueda actuar en consecuencia antes de que pasen 24 hs.
+
+\end{itemize}
 
 \subsection{Seguridad}
 
-\par
+\begin{itemize}
+    \item \textbf{LogIn:} 
+    \par Como el sistema ARS maneja datos muy sensibles, se debía limitar el acceso solo a actores válidos y a estos mismos brindarle solo el acceso a los componentes permitidos para el rol vinculado a su propio usuario. Para lograr este requisito, se implementa un sistema de LogIn capaz de Autenticar y Autorizar el acceso a los diferentes usuarios. Claramente, en caso de no brindar credenciales válidas, se le niega el acceso al actor que intenta utilizar el sistema.\\
+    Como el proceso de validación se inicia del lado de los clientes, que brindan sus datos de acceso y son enviados al sistema ARS, el canal de conexión entre los mismos debe ser seguro, con el fin de evitar revelar estos datos a cualquiera que se entrometa en la comunicación. Esto se alcanza implementando un handshake de clave asimétrica. 
+    Una vez que el cliente es capaz de enviar la información de manera segura, el sistema ARS a su vez debe comparar los datos recibidos con los datos que válidos ya almacenados. Para mas seguridad, se almacenan los nombres de usuario y sus claves de manera \textit{hasheada}. Por lo tanto, el sistema ARS deberá tener un hasher que se encargue de transformar la información recibida para posteriormente comparar con lo almacenado.\\
+    \item \textbf{Aislación física de los datos:} 
+    \par Por otro lado, todo el sistema ARS junto con las BD de producción y las de backup, estarán instalados en servidores dentro del edificio del Ministerio de Energía, para asegurar la seguridad y la integridad física de los datos procesados, mas allá de la información transmitida entre los diferentes actores.\\
+    \item \textbf{Comunicación segura con Entes Reguladores:} 
+    \par Finalmente, se requiere seguridad en el envío de datos a los Entes Reguladores. Nosotros utilizamos un servidor de mail tradicional para comunicar novedades a los mismos. Claramente, éstos no son infalibles ni seguros. Por ello, no se envía información sensible por estos canales, tan sólo novedades. Es decir que cada cierto tiempo, si hay nuevos datos históricos y eventos, se envía un mail a estos actores diciendo que el sistema ha procesado nuevos datos y hay información actualizada. Entonces para poder verlos, se invita a los mismos a ingresar al sistema (de modo seguro, por el LogIn ya mencionado) y evitando revelar datos importantes de manera innecesaria.
+\end{itemize}
 
 \subsection{Disponibilidad}
 
-\par
+\begin{itemize}
+    \item \textbf{Backup en caso de pérdida o siniestro:} 
+    \par El diseño del sistema está preparado para recuperarse ante una falla en la base de datos de las mediciones históricas. Para esto fueron creados dos repositorios de backup en donde cada cierto tiempo se almacenan los datos que fueron agregados o modificados del repositorio principal. Esta tarea es llevada a cabo por el componente \textit{Backups updater}. Si el repositorio principal falla, automáticamente todos los componentes que lo usan empiezan a apuntar a alguno de los backups, mientras que el \textit{Backup restorer} se encarga de restauración de datos. Una vez que esto sucede, todos los componentes vuelven a apuntar al Repositorio de datos históricos y el usuario nunca detectó que hubo una falla en el sistema.
+    
+    \item \textbf{La alarma vía SMS debe recibirse sí o sí:}
+    \par En el caso en el cual el servidor de SMS no esté disponible, el sistema está preparado para reintentar hasta que el mensaje sea enviado. Para esto se crea el repositorio de mensajes pendientes. Allí, el componente \textit{Enviador de avisos de alarma}, que es el encargado de enviar los SMSs, guarda los mensajes que no pudieron ser enviador por algún problema de disponibilidad del servicio. Luego de cierto tiempo, es notificado por un timer, y procede a reintentar el envío de mensajes que fueron almacenados en el repositorio. Si esta vez logra enviarlos, los borra del repositorio, y sino, vuelve a intentar luego del próximo aviso del timer. 
+\end{itemize}
 
 \subsection{Usabilidad}
 
-\par
-
-\subsection{Testeabilidad}
-
-este no va para mi (aparte ni lo menciona en las preguntas)\\
-
-
-
-\textbf{NO OLVIDAR}\\
-1. ¿Cómo se cumplen los requerimientos de disponibilidad?\\
-2. ¿Cómo se cumplen los requerimientos de seguridad?\\
-3. ¿Cómo es la interacción con los servicios externos? (Instrumentos de monitoreo) ¿Hay
-disponibilidad? ¿Seguridad? ¿Es tolerante a fallos?\\
-4. ¿Cómo se logra performance? ¿Se cumple pronóstico de evento catastrófico 24hs
-antes?\\
-5. ¿Cómo se informa a los entes reguladores?
+\begin{itemize}
+    \item \textbf{Interacción UI-Usuarios:} 
+    \par Como el sistema maneja un gran volumen de datos, los múltiples \textit{requests} entre los clientes y el sistema ARS involucrarán mucha información que eventualmente merme la performance, en comparación a su estado normal. Ante estas situaciones, el sistema debe asegurar que el usuario sepa en todo momento que las transacciones estan ocurriendo (UI con temporizadores de espera) y especialmente que en ventanas donde el usuario debe ingresar datos, la misma se bloquee a la espera de la respuesta proveniente del servidor (para evitar errores por la interacción no esperada del usuario con el sistema). Para esto último se utilizan calls sincrónicos, de lo contrario se usan conectores asincrónicos.
+    \item \textbf{Monitoreo:} 
+    \par Los usuarios dispondrán según sus perfiles, la capacidad de monitorear y visualizar datos de manera ágil y organizada. A los mismos se accede por medio de las diferentes ventanas que componen el módulo de UI del sistema ARS. 
+\end{itemize}
